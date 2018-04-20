@@ -5,7 +5,10 @@
 ## makefile
 ##
 
-SRC	:=	main.c
+SRC	:=	$(addprefix src/,	\
+		main.c	\
+		server.c	\
+		utils.c)
 
 OBJ	:=	$(SRC:.c=.o)
 
