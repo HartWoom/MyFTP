@@ -7,18 +7,21 @@
 
 SRC	:=	$(addprefix src/,	\
 		main.c	\
+		handle_error.c	\
 		server.c	\
 		utils.c)
 
 OBJ	:=	$(SRC:.c=.o)
 
 NAME	:=	server
+##NAME	:=	libserver.so
 
-CC	:=	gcc $(CFLAGS)
+CC	:=	gcc
 
 RM	:=	rm -rf
 
-CPPFLAGS	:=	-W -Wall -Wextra -pedantic -Iinclude
+CFLAGS	:=	-W -Wall -Wextra -pedantic -Iinclude
+##CFLAGS	:=	-fpic -W -Wall -Wextra -Iinclude
 
 DEFAULT	:=	"\033[00;0m"
 
@@ -28,8 +31,11 @@ RED	:=	"\033[0;31;1m"
 
 all:	$(NAME)
 
+tests_run:
+	+$(MAKE) -C tests
+
 $(NAME):	$(OBJ)
-	$(CC) $(OBJ) -o $(NAME) && \
+	$(CC) $(CFLAGS) $(OBJ) -o $(NAME) && \
 		echo -e $(GREEN)"[BIN]"$(CYAN) $(NAME)$(DEFAULT) || \
 		echo -e $(RED)"[XX]"$(DEFAULT) $(NAME)
 
@@ -41,9 +47,9 @@ fclean:	clean
 
 re:	fclean all
 
-.PHONY:	all clean fclean re
+.PHONY:	all clean fclean re tests_run
 
-.SILENT: all $(NAME) clean fclean re
+.SILENT: all $(NAME) clean fclean re tests_run
 
 .c.o:
 	@$(CC) -c $< -o $@ $(CFLAGS) $(foreach dir, include, -I$(dir)) && \
