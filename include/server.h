@@ -11,5 +11,6 @@
 # include "serverStruct.h"
 
 int	init_server(server_t *, char **);
+int	loop_server(server_t *);
 
 #endif

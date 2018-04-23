@@ -6,6 +6,9 @@
 */
 
 #include <stdbool.h>
+#include <unistd.h>
+#include <stdlib.h>
+#include <string.h>
 
 bool	is_numerical(char *number)
 {

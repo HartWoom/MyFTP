@@ -7,9 +7,14 @@
 
 #include <string.h>
 #include <stdlib.h>
+#include <unistd.h>
 #include <sys/types.h>
 #include <dirent.h>
+#include <stdbool.h>
+#include <stdio.h>
 #include "serverStruct.h"
+#include "process_command.h"
+#include "utils.h"
 
 int     check_ano_path(server_t *serverInfo, char *anoPath)
 {
@@ -19,6 +24,52 @@ int     check_ano_path(server_t *serverInfo, char *anoPath)
 		return (84);
 	serverInfo->anonymousPath = strdup(anoPath);
 	closedir(directory);
+	return (0);
+}
+
+void	handle_client(int clientSocket)
+{
+	FILE	*stream = fdopen(clientSocket, "r+");
+	char	*buff = NULL;
+	size_t	len = 0;
+	bool	login = false;
+
+	if (stream == NULL)
+		exit(84);
+	printf("handle_client\n");
+	dprintf(clientSocket, "220 Welcome\n");
+	while (getline(&buff, &len, stream) > 0){
+		if (login == true)
+			process_logged_command(clientSocket, buff);
+		else
+			process_unlogged_command(clientSocket, buff);
+	}
+	printf("end handle_client\n");
+	dprintf(clientSocket, "221 Goodbye\n");
+	exit(0);
+}
+
+int	loop_server(server_t *serverInfo)
+{
+	int	clientSocket;
+	socklen_t	clientAddressSize = sizeof(struct sockaddr_in);
+	struct sockaddr_in	clientAddress;
+	int	pid;
+
+	while (serverInfo->isOn){
+		clientSocket = accept(serverInfo->socket,
+			(struct sockaddr *) &clientAddress,
+			(socklen_t *) &clientAddressSize);
+		if (clientSocket == -1)
+			continue;
+		pid = fork();
+		if (pid == -1)
+			continue;
+		if (pid == 0)
+			handle_client(clientSocket);
+
+	}
+	return (0);
 }
 
 int     init_server(server_t *serverInfo, char **argv)
@@ -41,5 +92,6 @@ int     init_server(server_t *serverInfo, char **argv)
 		return (84);
 	if (listen(serverInfo->socket, 42) == -1)
 		return (84);
+	serverInfo->isOn = true;
 	return (0);
 }

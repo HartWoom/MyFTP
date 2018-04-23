@@ -7,6 +7,7 @@
 
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 #include "utils.h"
 
 void	display_help(void)
@@ -22,7 +23,7 @@ int	handle_error(int ac, char **av)
 {
 	if (ac == 2 && strcmp(av[1], "-help") == 0){
 		display_help();
-		return (0);
+		exit(0);
 	}
 	if (ac != 3){
 		fprintf(stderr, "See '-help' for usage.\n");

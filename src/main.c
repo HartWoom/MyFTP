@@ -21,7 +21,9 @@ int	main(int ac, char **av)
 		fprintf(stderr, "Failed to init the FTP server\n");
 		return (84);
 	}
-	//printf("%s\n", serverInfo.anonymousPath);
-        //if (startServer(&serverInfo))
+        if (loop_server(&serverInfo) == 84){
+        	fprintf(stderr, "Failed to start the server\n");
+        	return (84);
+        }
 	return (0);
 }
