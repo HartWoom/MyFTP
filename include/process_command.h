@@ -8,7 +8,8 @@
 #ifndef PROCESS_COMMAND_H_
 # define PROCESS_COMMAND_H_
 
-void	process_logged_command(int, char *);
-void	process_unlogged_command(int, char *);
+# include "command_function_pointer.h"
+
+void	process_command(command_t *, int, char *, bool *);
 
 #endif

@@ -15,6 +15,7 @@
 #include "serverStruct.h"
 #include "process_command.h"
 #include "utils.h"
+#include "command_function_pointer.h"
 
 int     check_ano_path(server_t *serverInfo, char *anoPath)
 {
@@ -32,19 +33,16 @@ void	handle_client(int clientSocket)
 	FILE	*stream = fdopen(clientSocket, "r+");
 	char	*buff = NULL;
 	size_t	len = 0;
-	bool	login = false;
+	bool	logged = false;
+	command_t	commandInfo;
 
 	if (stream == NULL)
 		exit(84);
-	printf("handle_client\n");
+	printf("New client\n");
 	dprintf(clientSocket, "220 Welcome\n");
-	while (getline(&buff, &len, stream) > 0){
-		if (login == true)
-			process_logged_command(clientSocket, buff);
-		else
-			process_unlogged_command(clientSocket, buff);
-	}
-	printf("end handle_client\n");
+	while (getline(&buff, &len, stream) > 0)
+		process_command(&commandInfo, clientSocket, buff, &logged);
+	printf("Client leaved\n");
 	dprintf(clientSocket, "221 Goodbye\n");
 	exit(0);
 }
@@ -59,7 +57,7 @@ int	loop_server(server_t *serverInfo)
 	while (serverInfo->isOn){
 		clientSocket = accept(serverInfo->socket,
 			(struct sockaddr *) &clientAddress,
-			(socklen_t *) &clientAddressSize);
+			&clientAddressSize);
 		if (clientSocket == -1)
 			continue;
 		pid = fork();
@@ -67,7 +65,6 @@ int	loop_server(server_t *serverInfo)
 			continue;
 		if (pid == 0)
 			handle_client(clientSocket);
-
 	}
 	return (0);
 }

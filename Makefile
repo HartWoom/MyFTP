@@ -10,6 +10,7 @@ SRC	:=	$(addprefix src/,	\
 		handle_error.c	\
 		server.c	\
 		process_command.c	\
+		unlogged_command.c	\
 		utils.c)
 
 OBJ	:=	$(SRC:.c=.o)
