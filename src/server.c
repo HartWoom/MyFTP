@@ -33,15 +33,15 @@ void	handle_client(int clientSocket)
 	FILE	*stream = fdopen(clientSocket, "r+");
 	char	*buff = NULL;
 	size_t	len = 0;
-	bool	logged = false;
 	command_t	commandInfo;
 
+	commandInfo.logged = false;
 	if (stream == NULL)
 		exit(84);
 	printf("New client\n");
 	dprintf(clientSocket, "220 Welcome\n");
 	while (getline(&buff, &len, stream) > 0)
-		process_command(&commandInfo, clientSocket, buff, &logged);
+		process_command(&commandInfo, clientSocket, buff);
 	printf("Client leaved\n");
 	dprintf(clientSocket, "221 Goodbye\n");
 	exit(0);

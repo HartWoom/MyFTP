@@ -18,7 +18,7 @@ void	command_user(command_t *commandInfo)
 
 	strtok(commandInfo->usefullString, " ");
 	login = strtok(NULL, "\n\r");
-	if (*commandInfo->logged == true){
+	if (commandInfo->logged == true){
 		dprintf(commandInfo->clientSocket, "530 Can't change from"
 			" guest user.\n");
 		return;
@@ -37,7 +37,7 @@ void	command_pass(command_t *commandInfo)
 {
 	char	*password;
 
-	if (*commandInfo->logged == true){
+	if (commandInfo->logged == true){
 		dprintf(commandInfo->clientSocket, "230 Already logged in.\n");
 		return;
 	}
@@ -45,7 +45,7 @@ void	command_pass(command_t *commandInfo)
 	password = strtok(NULL, "\r\n");
 	if (strcmp(commandInfo->login, "Anonymous") == 0 && password == NULL){
 		dprintf(commandInfo->clientSocket, "230 Login succesful.\n");
-		*commandInfo->logged = true;
+		commandInfo->logged = true;
 		printf("Login succesful\n");
 	}
 	else{

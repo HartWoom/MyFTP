@@ -10,6 +10,6 @@
 
 # include "command_function_pointer.h"
 
-void	process_command(command_t *, int, char *, bool *);
+void	process_command(command_t *, int, char *);
 
 #endif

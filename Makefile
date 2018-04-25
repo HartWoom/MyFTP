@@ -11,6 +11,8 @@ SRC	:=	$(addprefix src/,	\
 		server.c	\
 		process_command.c	\
 		unlogged_command.c	\
+		logged_command.c	\
+		logged_command_part2.c	\
 		utils.c)
 
 OBJ	:=	$(SRC:.c=.o)
