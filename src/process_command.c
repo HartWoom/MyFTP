@@ -23,7 +23,7 @@ void	process_command(command_t *commandInfo,
 		return;
 	while (commandTable[index] != NULL){
 		if (strcasecmp(commandTable[index],
-			strtok(strdup(command), " \n")) == 0)
+			strtok(strdup(command), " \n\r")) == 0)
 		{
 			printf("Command received (%s)\n", commandTable[index]);
 			commandInfo->usefullString = strdup(command);
@@ -33,6 +33,8 @@ void	process_command(command_t *commandInfo,
 		}
 		index += 1;
 	}
+	dprintf(commandInfo->clientSocket, "500 Syntax error,"
+		" command not recognized.\n");
 }
 
 void	choose_command(command_t *commandInfo, int index)

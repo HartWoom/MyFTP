@@ -28,7 +28,7 @@ int     check_ano_path(server_t *serverInfo, char *anoPath)
 	return (0);
 }
 
-void	handle_client(int clientSocket)
+void	handle_client(int clientSocket, char *anoPath)
 {
 	FILE	*stream = fdopen(clientSocket, "r+");
 	char	*buff = NULL;
@@ -36,6 +36,9 @@ void	handle_client(int clientSocket)
 	command_t	commandInfo;
 
 	commandInfo.logged = false;
+	if (chdir(anoPath) == -1)
+		exit(84);
+	commandInfo.home = strdup(getcwd(commandInfo.home, 1024));
 	if (stream == NULL)
 		exit(84);
 	printf("New client\n");
@@ -43,7 +46,6 @@ void	handle_client(int clientSocket)
 	while (getline(&buff, &len, stream) > 0)
 		process_command(&commandInfo, clientSocket, buff);
 	printf("Client leaved\n");
-	dprintf(clientSocket, "221 Goodbye\n");
 	exit(0);
 }
 
@@ -61,10 +63,11 @@ int	loop_server(server_t *serverInfo)
 		if (clientSocket == -1)
 			continue;
 		pid = fork();
+		printf("%d\n", pid);
 		if (pid == -1)
 			continue;
 		if (pid == 0)
-			handle_client(clientSocket);
+			handle_client(clientSocket, serverInfo->anonymousPath);
 	}
 	return (0);
 }
