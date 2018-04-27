@@ -47,11 +47,3 @@ Test(handle_error, one_wrong_arg, .init = setup)
 
 	cr_assert(handle_error(ac, av) == 84);
 }
-
-Test(handle_error, correct_arg, .init = setup)
-{
-	char	*av[] = {"./server", "1234", "."};
-	int	ac = 3;
-
-	cr_assert(handle_error(ac, av) == 0);
-}

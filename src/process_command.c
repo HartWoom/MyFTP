@@ -27,9 +27,7 @@ void	process_command(command_t *commandInfo,
 		if (parse == NULL)
 			return;
 		if (strcasecmp(commandTable[index],
-			strtok(strdup(command), " \n\r")) == 0)
-		{
-			printf("Command received (%s)\n", commandTable[index]);
+			strtok(strdup(command), " \n\r")) == 0){
 			commandInfo->usefullString = strdup(command);
 			commandInfo->clientSocket = clientSocket;
 			choose_command(commandInfo, index);

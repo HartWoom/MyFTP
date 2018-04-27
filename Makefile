@@ -13,22 +13,19 @@ SRC	:=	$(addprefix src/,	\
 		unlogged_command.c	\
 		logged_command.c	\
 		logged_command_part2.c	\
-		logged_command_part3.c	\
-		logged_command_part4.c	\
-		logged_command_part5.c	\
+		command_pasv.c	\
+		command_list.c	\
 		utils.c)
 
 OBJ	:=	$(SRC:.c=.o)
 
 NAME	:=	server
-##NAME	:=	libserver.so
 
 CC	:=	gcc
 
 RM	:=	rm -rf
 
 CFLAGS	:=	-W -Wall -Wextra -pedantic -Iinclude
-##CFLAGS	:=	-fpic -W -Wall -Wextra -Iinclude
 
 DEFAULT	:=	"\033[00;0m"
 

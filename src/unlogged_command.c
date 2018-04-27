@@ -45,15 +45,16 @@ void	command_pass(command_t *commandInfo)
 	password = strtok(NULL, "\r\n");
 	if (commandInfo->login == NULL)
 		dprintf(commandInfo->clientSocket, "530 Login incorrect.\n");
-	else if (strcmp(commandInfo->login, "Anonymous") == 0 && password == NULL){
+	else if (strcmp(commandInfo->login, "Anonymous") == 0
+		&& password == NULL){
 		dprintf(commandInfo->clientSocket, "230 Login succesful.\n");
-		commandInfo->logged = true;
-		printf("Login succesful\n");
-	}
-	else{
-		dprintf(commandInfo->clientSocket, "530 Login incorrect.\n");
-		printf("Failed login\n");
-	}
+	commandInfo->logged = true;
+	printf("Login succesful\n");
+}
+else{
+	dprintf(commandInfo->clientSocket, "530 Login incorrect.\n");
+	printf("Failed login\n");
+}
 }
 
 void	command_quit(command_t *commandInfo)

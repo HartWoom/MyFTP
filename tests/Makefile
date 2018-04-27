@@ -7,6 +7,7 @@
 
 SRC	:=	setup.c	\
 		ut_handle_error.c	\
+		ut_handle_error_part2.c	\
 		ut_is_numerical.c
 
 PROJECT_SRC	:=	$(addprefix ../src/,	\

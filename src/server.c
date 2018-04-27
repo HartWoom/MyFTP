@@ -48,6 +48,7 @@ void	handle_client(int clientSocket, char *anoPath)
 	while (getline(&buff, &len, stream) > 0)
 		process_command(&commandInfo, clientSocket, buff);
 	printf("Client leaved\n");
+	free(commandInfo.home);
 	exit(0);
 }
 
