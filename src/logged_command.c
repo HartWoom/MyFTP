@@ -59,11 +59,22 @@ void	command_cdup(command_t *commandInfo)
 
 void	command_dele(command_t *commandInfo)
 {
+	char	*file;
 	if (!commandInfo->logged){
 		dprintf(commandInfo->clientSocket, "530 Please login with USER"
 			" and PASS.\n");
 		return;
 	}
+	strtok(commandInfo->usefullString, " \n\r");
+	file = strtok(NULL, "\n\r");
+	if (file == NULL)
+		dprintf(commandInfo->clientSocket, "501 Please specify the"
+		" file path.\n");
+	if (remove(file) == -1)
+		dprintf(commandInfo->clientSocket, "550 File not found.\n");
+	else
+		dprintf(commandInfo->clientSocket, "250 File has been"
+		" deleted.\n");
 }
 
 void	command_pwd(command_t *commandInfo)
@@ -83,11 +94,13 @@ void	command_pwd(command_t *commandInfo)
 			" and PASS.\n");
 }
 
-void	command_pasv(command_t *commandInfo)
+void	command_help(command_t *commandInfo)
 {
-	if (!commandInfo->logged){
+	if (commandInfo->logged)
+		dprintf(commandInfo->clientSocket, "214-The following commands are"
+			" recognized.\n USER PASS QUIT CWD CDUP DELE PWD PASV PORT"
+			" HELP NOOP RETR STOR LIST\n214 Help OK.\n");
+	else
 		dprintf(commandInfo->clientSocket, "530 Please login with USER"
-			" and PASS.\n");
-		return;
-	}
+			" and PASS.\n");	
 }

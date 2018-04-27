@@ -10,6 +10,7 @@
 
 # include <stdbool.h>
 
+int	convert_10_to_8(int);
 bool	is_numerical(char *);
 
 #endif

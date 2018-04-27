@@ -14,6 +14,8 @@ typedef struct	command
 {
 	char	*usefullString;
 	int	clientSocket;
+	int	serverSocket;
+	int	dataSocket;
 	bool	logged;
 	char	*login;
 	char	*home;

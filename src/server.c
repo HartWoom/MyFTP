@@ -36,6 +36,7 @@ void	handle_client(int clientSocket, char *anoPath)
 	command_t	commandInfo;
 
 	commandInfo.logged = false;
+	commandInfo.dataSocket = -1;
 	if (chdir(anoPath) == -1)
 		exit(84);
 	commandInfo.home = strdup(getcwd(commandInfo.home, 1024));
