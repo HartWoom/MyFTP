@@ -37,6 +37,7 @@ void	handle_client(int clientSocket, char *anoPath)
 
 	commandInfo.logged = false;
 	commandInfo.dataSocket = -1;
+	commandInfo.home = malloc(sizeof(char) * 1024);
 	if (chdir(anoPath) == -1)
 		exit(84);
 	commandInfo.home = strdup(getcwd(commandInfo.home, 1024));
@@ -57,6 +58,7 @@ int	loop_server(server_t *serverInfo)
 	struct sockaddr_in	clientAddress;
 	int	pid;
 
+	printf("Server is on\n");
 	while (serverInfo->isOn){
 		clientSocket = accept(serverInfo->socket,
 			(struct sockaddr *) &clientAddress,
@@ -64,7 +66,6 @@ int	loop_server(server_t *serverInfo)
 		if (clientSocket == -1)
 			continue;
 		pid = fork();
-		printf("%d\n", pid);
 		if (pid == -1)
 			continue;
 		if (pid == 0)

@@ -60,17 +60,25 @@ void	command_list_part2(DIR *directory, command_t *commandInfo)
 void	command_list(command_t *commandInfo)
 {
 	char	*buff = malloc(sizeof(char) * 1024);
-	DIR	*directory = opendir(getcwd(buff, 1024));
+	DIR	*directory;
+	char	*path;
 
 	if (!commandInfo->logged){
 		dprintf(commandInfo->clientSocket, "530 Please login with USER"
 			" and PASS.\n");
 		return;
 	}
-	printf("%d\n", commandInfo->dataSocket);
+	strtok(commandInfo->usefullString, " \n\r");
+	path = strtok(NULL, "\n\r");
+	if (path != NULL){
+		dprintf(commandInfo->clientSocket, "502 Command not implemented.\n");
+		return;
+		}
+	if (path == NULL)
+		directory = opendir(getcwd(buff, 1024));
 	if (commandInfo->dataSocket == -1){
 		dprintf(commandInfo->clientSocket, "450 Requested file action"
-		" not taken. No data connection.\n");
+			" not taken. No data connection.\n");
 		return;
 	}
 	if (directory)

@@ -67,6 +67,7 @@ void	command_cdup(command_t *commandInfo)
 void	command_dele(command_t *commandInfo)
 {
 	char	*file;
+
 	if (!commandInfo->logged){
 		dprintf(commandInfo->clientSocket, "530 Please login with USER"
 			" and PASS.\n");

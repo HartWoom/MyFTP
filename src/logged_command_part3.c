@@ -19,7 +19,6 @@ void	command_pasv_part2(command_t *commandInfo, int newSocket,
 	struct sockaddr_in newAddress, int newPort)
 {
 	socklen_t	addrSize = sizeof(struct sockaddr_in);
-	int	clientSocket;
 
 	while (bind(newSocket, (struct sockaddr *) &newAddress,
 		sizeof(struct sockaddr_in)) == -1)
@@ -31,9 +30,8 @@ void	command_pasv_part2(command_t *commandInfo, int newSocket,
 		exit(84);
 	dprintf(commandInfo->clientSocket, "227 Entering passive"
 		" mode(127,0,0,1,4,%d)\n", newPort - 1024);
-	clientSocket = accept(newSocket,
+	commandInfo->dataSocket = accept(newSocket,
 		(struct sockaddr *) &newAddress, &addrSize);
-	commandInfo->dataSocket = clientSocket;
 }
 
 void	command_pasv(command_t *commandInfo)
