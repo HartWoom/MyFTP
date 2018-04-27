@@ -21,9 +21,9 @@
 
 void	display_file_info(struct dirent *dirStruct, int dataSocket)
 {
-	struct passwd	*pwd;
-	struct group	*grp;
-	struct stat	st;
+	struct	passwd	*pwd;
+	struct	group	*grp;
+	struct	stat	st;
 	char	*buff;
 
 	stat(dirStruct->d_name, &st);
@@ -42,7 +42,7 @@ void	display_file_info(struct dirent *dirStruct, int dataSocket)
 
 void	command_list_part2(DIR *directory, command_t *commandInfo)
 {
-	struct dirent	*dirStruct;
+	struct	dirent	*dirStruct;
 
 	dirStruct = readdir(directory);
 	dprintf(commandInfo->clientSocket, "150 Here comes the"
@@ -67,10 +67,13 @@ void	command_list(command_t *commandInfo)
 			" and PASS.\n");
 		return;
 	}
-	if (commandInfo->dataSocket == -1)
+	printf("%d\n", commandInfo->dataSocket);
+	if (commandInfo->dataSocket == -1){
 		dprintf(commandInfo->clientSocket, "450 Requested file action"
 		" not taken. No data connection.\n");
-	else if (directory)
+		return;
+	}
+	if (directory)
 		command_list_part2(directory, commandInfo);
 	else
 		dprintf(commandInfo->clientSocket, "451 Requested action"

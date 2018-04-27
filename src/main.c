@@ -7,7 +7,7 @@
 
 #include <stdio.h>
 #include <string.h>
-#include "serverStruct.h"
+#include "server_struct.h"
 #include "server.h"
 #include "handle_error.h"
 
@@ -21,9 +21,9 @@ int	main(int ac, char **av)
 		fprintf(stderr, "Failed to init the FTP server\n");
 		return (84);
 	}
-        if (loop_server(&serverInfo) == 84){
-        	fprintf(stderr, "Failed to start the server\n");
-        	return (84);
-        }
+	if (loop_server(&serverInfo) == 84){
+		fprintf(stderr, "Failed to start the server\n");
+		return (84);
+	}
 	return (0);
 }

@@ -33,8 +33,8 @@ void	process_command(command_t *commandInfo,
 		}
 		index += 1;
 	}
-	dprintf(commandInfo->clientSocket, "500 Syntax error,"
-		" command not recognized.\n");
+	dprintf(commandInfo->clientSocket, "500 Syntax error, command"
+	" not recognized.\n");
 }
 
 void	choose_command(command_t *commandInfo, int index)

@@ -8,7 +8,7 @@
 #ifndef SERVER_H_
 # define SERVER_H_
 
-# include "serverStruct.h"
+# include "server_struct.h"
 
 int	init_server(server_t *, char **);
 int	loop_server(server_t *);

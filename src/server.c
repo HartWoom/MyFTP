@@ -12,7 +12,7 @@
 #include <dirent.h>
 #include <stdbool.h>
 #include <stdio.h>
-#include "serverStruct.h"
+#include "server_struct.h"
 #include "process_command.h"
 #include "utils.h"
 #include "command_function_pointer.h"
